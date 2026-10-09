@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бүртгүүлэх — NOVA UNIVERSITY</title>
+<meta name="description" content="NOVA University-д элсэн суралцах хүсэлтээ энд бүртгүүлнэ үү.">
+<meta name="theme-color" content="#1B2350">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231B2350'/%3E%3Cpath d='M16 6 L26 12 L16 18 L6 12 Z' fill='none' stroke='%23E6C77E' stroke-width='1.8'/%3E%3Cpath d='M10 15 V21 C10 23.5 12.7 25.5 16 25.5 C19.3 25.5 22 23.5 22 21 V15' fill='none' stroke='%23E6C77E' stroke-width='1.8'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Үндсэн контент руу шилжих</a>
+
+<header>
+  <div class="header-row">
+    <a href="index.html" class="logo">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M16 3 L28 10 L16 17 L4 10 Z" stroke="#E6C77E" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M8 13.5 V21 C8 24 11.5 27 16 27 C20.5 27 24 24 24 21 V13.5" stroke="#E6C77E" stroke-width="1.6"/>
+      </svg>
+      <span>NOVA</span> UNIVERSITY
+    </a>
+    <button class="menu-btn" aria-label="Цэс нээх" aria-expanded="false" aria-controls="main-nav-list"><span></span></button>
+    <nav class="main-nav" id="main-nav-list" aria-label="Үндсэн цэс">
+      <ul>
+        <li><a href="index.html#home">Нүүр</a></li>
+        <li><a href="index.html#about">Бидний тухай</a></li>
+        <li><a href="index.html#program">Сургалт</a></li>
+        <li><a href="index.html#news">Мэдээ</a></li>
+        <li><a href="index.html#contact">Холбоо барих</a></li>
+        <li class="cta-item"><a href="register.html" class="nav-cta" aria-current="true">Бүртгүүлэх</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="index.html">Нүүр</a> / Бүртгүүлэх</p>
+    <h1>Элсэлтийн бүртгэл</h1>
+    <p class="page-hero-text">Доорх маягтыг бөглөж, бидэнтэй холбогдоорой. Манай элсэлтийн ажилтан 1-2 ажлын өдрийн дотор тантай холбогдох болно.</p>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="apply-form">
+  <div class="wrap">
+    <div class="form-wrap">
+
+      <form class="reg-form" id="registerForm" novalidate>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="fullname">Овог, нэр <span aria-hidden="true">*</span></label>
+            <input type="text" id="fullname" name="fullname" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="birthdate">Төрсөн огноо</label>
+            <input type="date" id="birthdate" name="birthdate">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Имэйл хаяг <span aria-hidden="true">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="phone">Утасны дугаар <span aria-hidden="true">*</span></label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="program">Сонирхож буй хөтөлбөр <span aria-hidden="true">*</span></label>
+          <select id="program" name="program" required>
+            <option value="" disabled selected>Хөтөлбөр сонгоно уу</option>
+            <option value="it">Мэдээллийн технологи</option>
+            <option value="business">Бизнесийн удирдлага</option>
+            <option value="design">Дизайн</option>
+            <option value="engineering">Инженерчлэл</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="message">Нэмэлт мэдээлэл</label>
+          <textarea id="message" name="message" rows="5" placeholder="Асуух зүйл эсвэл нэмэлт мэдээлэл байвал энд бичнэ үү"></textarea>
+        </div>
+
+        <p class="required-note">Од (<span aria-hidden="true">*</span>) тэмдэгтэй талбарыг заавал бөглөнө.</p>
+
+        <button type="submit" class="btn">Бүртгэл илгээх</button>
+
+        <p class="form-note">Энэ маягт нь загварчлалын зорилготой бөгөөд одоогоор өгөгдлийг сервер рүү илгээхгүй.</p>
+      </form>
+
+      <div class="form-success" id="formSuccess" role="status" tabindex="-1">
+        <h2>Баярлалаа!</h2>
+        <p>Таны бүртгэлийн хүсэлтийг хүлээн авлаа. Манай элсэлтийн ажилтан удахгүй тантай холбогдох болно.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="logo-line">NOVA UNIVERSITY</div>
+        <p class="tagline">Ирээдүйг бүтээх мэдлэг</p>
+      </div>
+    </div>
+    <hr>
+    <p class="bottom">© 2026 NOVA UNIVERSITY. Бүх эрх хуулиар хамгаалагдсан.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
