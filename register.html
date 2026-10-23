@@ -50,39 +50,93 @@
   </div>
 </section>
 
-<!-- FORM -->
+<!-- NETLIFY REGISTRATION FORM -->
 <section class="form-section" id="apply-form">
   <div class="wrap">
     <div class="form-wrap">
 
-      <form class="reg-form" id="registerForm" novalidate>
+      <form
+        class="reg-form"
+        id="registerForm"
+        name="registration"
+        method="POST"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+      >
+
+        <!-- Netlify формын нэр -->
+        <input type="hidden" name="form-name" value="registration">
+
+        <!-- Spam хамгаалалт -->
+        <p hidden>
+          <label>
+            Энэ хэсгийг бөглөхгүй:
+            <input name="bot-field">
+          </label>
+        </p>
 
         <div class="form-row">
           <div class="field">
-            <label for="fullname">Овог, нэр <span aria-hidden="true">*</span></label>
-            <input type="text" id="fullname" name="fullname" autocomplete="name" required>
+            <label for="fullname">
+              Овог, нэр <span aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              autocomplete="name"
+              required
+            >
           </div>
+
           <div class="field">
             <label for="birthdate">Төрсөн огноо</label>
-            <input type="date" id="birthdate" name="birthdate">
+            <input
+              type="date"
+              id="birthdate"
+              name="birthdate"
+            >
           </div>
         </div>
 
         <div class="form-row">
           <div class="field">
-            <label for="email">Имэйл хаяг <span aria-hidden="true">*</span></label>
-            <input type="email" id="email" name="email" autocomplete="email" required>
+            <label for="email">
+              Имэйл хаяг <span aria-hidden="true">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              required
+            >
           </div>
+
           <div class="field">
-            <label for="phone">Утасны дугаар <span aria-hidden="true">*</span></label>
-            <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+            <label for="phone">
+              Утасны дугаар <span aria-hidden="true">*</span>
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              autocomplete="tel"
+              required
+            >
           </div>
         </div>
 
         <div class="field">
-          <label for="program">Сонирхож буй хөтөлбөр <span aria-hidden="true">*</span></label>
+          <label for="program">
+            Сонирхож буй хөтөлбөр
+            <span aria-hidden="true">*</span>
+          </label>
+
           <select id="program" name="program" required>
-            <option value="" disabled selected>Хөтөлбөр сонгоно уу</option>
+            <option value="" disabled selected>
+              Хөтөлбөр сонгоно уу
+            </option>
             <option value="it">Мэдээллийн технологи</option>
             <option value="business">Бизнесийн удирдлага</option>
             <option value="design">Дизайн</option>
@@ -92,24 +146,34 @@
 
         <div class="field">
           <label for="message">Нэмэлт мэдээлэл</label>
-          <textarea id="message" name="message" rows="5" placeholder="Асуух зүйл эсвэл нэмэлт мэдээлэл байвал энд бичнэ үү"></textarea>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            placeholder="Асуух зүйл эсвэл нэмэлт мэдээлэл байвал энд бичнэ үү"
+          ></textarea>
         </div>
 
-        <p class="required-note">Од (<span aria-hidden="true">*</span>) тэмдэгтэй талбарыг заавал бөглөнө.</p>
+        <p class="required-note">
+          Од (*) тэмдэгтэй талбарыг заавал бөглөнө.
+        </p>
 
-        <button type="submit" class="btn">Бүртгэл илгээх</button>
+        <button type="submit" class="btn">
+          Бүртгэл илгээх
+        </button>
 
-        <p class="form-note">Энэ маягт нь загварчлалын зорилготой бөгөөд одоогоор өгөгдлийг сервер рүү илгээхгүй.</p>
+        <p class="form-note">
+          Таны бүртгэлийн мэдээлэл амжилттай илгээгдсэний
+          дараа Netlify Forms хэсэгт бүртгэгдэнэ.
+        </p>
+
       </form>
-
-      <div class="form-success" id="formSuccess" role="status" tabindex="-1">
-        <h2>Баярлалаа!</h2>
-        <p>Таны бүртгэлийн хүсэлтийг хүлээн авлаа. Манай элсэлтийн ажилтан удахгүй тантай холбогдох болно.</p>
-      </div>
 
     </div>
   </div>
 </section>
+<!-- Netlify формын дууссан -->
+
 
 </main>
 
