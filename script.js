@@ -1,136 +1,128 @@
-(function () {
-  'use strict';
 
-  // ---------- Mobile nav toggle ----------
-  var menuBtn = document.querySelector('.menu-btn');
-  var nav = document.querySelector('.main-nav');
-
-  function closeMenu() {
-    nav.classList.remove('open');
-    menuBtn.classList.remove('open');
-    menuBtn.setAttribute('aria-expanded', 'false');
-  }
-
-  function toggleMenu() {
-    var isOpen = nav.classList.toggle('open');
-    menuBtn.classList.toggle('open', isOpen);
-    menuBtn.setAttribute('aria-expanded', String(isOpen));
-  }
-
-  if (menuBtn && nav) {
-    menuBtn.addEventListener('click', toggleMenu);
-
-    nav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', closeMenu);
-    });
-
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && nav.classList.contains('open')) {
-        closeMenu();
-        menuBtn.focus();
-      }
-    });
-  }
-
-  // ---------- One-time stat count-up when scrolled into view ----------
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var statNumbers = document.querySelectorAll('.stat h2[data-count]');
-  var statBand = document.querySelector('.stat-band');
-
-  function formatNumber(value) {
-    return value.toLocaleString('en-US') + '+';
-  }
-
-  function animateCount(el) {
-    var target = parseInt(el.dataset.count, 10);
-    if (isNaN(target)) return;
-
-    if (reduceMotion) {
-      el.textContent = formatNumber(target);
-      return;
-    }
-
-    el.textContent = formatNumber(0);
-    var duration = 1400;
-    var start = performance.now();
-
-    function step(now) {
-      var progress = Math.min((now - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = formatNumber(Math.round(target * eased));
-      if (progress < 1) requestAnimationFrame(step);
-    }
-
-    requestAnimationFrame(step);
-  }
-
-  if (statNumbers.length && statBand && 'IntersectionObserver' in window) {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          statNumbers.forEach(animateCount);
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.4 });
-
-    observer.observe(statBand);
-  } else if (statNumbers.length) {
-    // Fallback for browsers without IntersectionObserver support
-    statNumbers.forEach(animateCount);
-  }
-
-  // ---------- Highlight the nav link for the section in view ----------
-  var navLinks = Array.prototype.slice.call(
-    document.querySelectorAll('nav.main-nav a[href^="#"]')
-  );
-  var trackedSections = navLinks
-    .map(function (link) {
-      return document.querySelector(link.getAttribute('href'));
-    })
-    .filter(Boolean);
-
-  function setActiveLink(id) {
-    navLinks.forEach(function (link) {
-      if (link.getAttribute('href') === '#' + id) {
-        link.setAttribute('aria-current', 'true');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-    });
-  }
-
-  if (trackedSections.length && 'IntersectionObserver' in window) {
-    var sectionObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) setActiveLink(entry.target.id);
-        });
-      },
-      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
-    );
-
-    trackedSections.forEach(function (section) {
-      sectionObserver.observe(section);
-    });
-  }
-
-  // ---------- Registration form (register.html) ----------
+  // ---------- Registration form (Netlify Forms) ----------
   var registerForm = document.getElementById('registerForm');
   var formSuccess = document.getElementById('formSuccess');
 
-  if (registerForm && formSuccess) {
-    registerForm.addEventListener('submit', function (event) {
+  if (registerForm) {
+    registerForm.addEventListener('submit', async function (event) {
       event.preventDefault();
 
+      // Формын мэдээллийг шалгах
       if (!registerForm.checkValidity()) {
         registerForm.reportValidity();
         return;
       }
 
-      registerForm.hidden = true;
-      formSuccess.classList.add('visible');
-      formSuccess.focus();
+      var submitButton = registerForm.querySelector(
+        'button[type="submit"]'
+      );
+
+      var originalButtonText = submitButton
+        ? submitButton.textContent
+        : 'Бүртгэл илгээх';
+
+      // Давхар илгээхээс хамгаалах
+      if (submitButton) {
+        if (submitButton.disabled) return;
+        submitButton.disabled = true;
+        submitButton.textContent = 'Илгээж байна...';
+      }
+
+      // Алдаа, төлөв харуулах хэсэг
+      var statusMessage = registerForm.querySelector('.form-status');
+
+      if (!statusMessage) {
+        statusMessage = document.createElement('p');
+        statusMessage.className = 'form-status';
+        statusMessage.setAttribute('role', 'status');
+        statusMessage.setAttribute('aria-live', 'polite');
+        registerForm.appendChild(statusMessage);
+      }
+
+      statusMessage.textContent = '';
+      statusMessage.style.color = '';
+
+      try {
+        // Netlify формын нэрийг шалгах
+        var formName = registerForm.getAttribute('name');
+
+        if (!formName) {
+          throw new Error(
+            'Формын name тохиргоо алга. name="registration" гэж тохируулна уу.'
+          );
+        }
+
+        // Бүх талбарын мэдээллийг бэлтгэх
+        var formData = new FormData(registerForm);
+
+        // Netlify-д формын нэрийг заавал илгээнэ
+        formData.set('form-name', formName);
+
+        // Netlify Forms-д тохирох URL-encoded өгөгдөл
+        var encodedData = new URLSearchParams();
+
+        formData.forEach(function (value, key) {
+          if (typeof value === 'string') {
+            encodedData.append(key, value);
+          }
+        });
+
+        // Netlify руу POST хүсэлт илгээх
+        var response = await fetch('/', {
+          method: 'POST',
+          headers: {
+            'Content-Type':
+              'application/x-www-form-urlencoded;charset=UTF-8'
+          },
+          body: encodedData.toString()
+        });
+
+        // Серверийн алдааг шалгах
+        if (!response.ok) {
+          throw new Error(
+            'Netlify серверээс HTTP ' +
+            response.status +
+            ' алдаа ирлээ.'
+          );
+        }
+
+        // Амжилттай илгээгдсэн
+        console.log(
+          'Форм илгээх хүсэлт амжилттай:',
+          formName,
+          response.status
+        );
+
+        if (formSuccess) {
+          registerForm.hidden = true;
+          formSuccess.classList.add('visible');
+          formSuccess.hidden = false;
+          formSuccess.focus();
+        } else {
+          statusMessage.textContent =
+            'Таны бүртгэлийг илгээх хүсэлт амжилттай боллоо.';
+          statusMessage.style.color = 'green';
+        }
+
+      } catch (error) {
+        // Алдааны мэдээллийг хэрэглэгчид харуулах
+        console.error('Netlify Forms алдаа:', error);
+
+        var errorText = error.message || 'Тодорхойгүй алдаа гарлаа.';
+
+        statusMessage.textContent =
+          'Бүртгэл илгээж чадсангүй. ' +
+          errorText +
+          ' Дахин оролдоно уу.';
+
+        statusMessage.style.color = 'red';
+
+      } finally {
+        // Алдаа гарсан тохиолдолд дахин илгээх боломж олгоно
+        if (submitButton && !registerForm.hidden) {
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+        }
+      }
     });
   }
-})();
